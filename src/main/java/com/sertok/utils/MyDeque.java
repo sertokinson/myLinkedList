@@ -2,8 +2,8 @@ package com.sertok.utils;
 
 import java.util.Iterator;
 
-public class MyLinkedList<T> implements Iterable<T>,IMyLinkedList<T> {
-    public static int INIT_CAPACITY = 3;
+public class MyDeque<T> implements Iterable<T>, IMyDeque<T> {
+    public static int INIT_CAPACITY = 100;
     private Object[] arr = new Object[INIT_CAPACITY];
     private int index = 0;
     private int level = 0;
@@ -13,11 +13,11 @@ public class MyLinkedList<T> implements Iterable<T>,IMyLinkedList<T> {
     private int size = 0;
 
 
-    public MyLinkedList() {
+    public MyDeque() {
         first.next = last.next;
     }
 
-    public MyLinkedList(int size) {
+    public MyDeque(int size) {
         INIT_CAPACITY = size;
         arr = new Object[INIT_CAPACITY];
         first.next = last.next;
@@ -40,36 +40,43 @@ public class MyLinkedList<T> implements Iterable<T>,IMyLinkedList<T> {
         T value;
         int level = i / INIT_CAPACITY;
         int index = i % INIT_CAPACITY;
-        if (this.current == null || this.level > level) {
+        if (this.current == null) {
             this.level = 0;
             this.current = first;
         }
-        for (int j = this.level; j < level; j++) {
-            this.level = level;
-            current = current.next;
-        }
+        if (this.level > level)
+            for (int j = level; j < this.level; j++) {
+                this.level = level;
+                current = current.prev;
+            }
+        else
+            for (int j = this.level; j < level; j++) {
+                this.level = level;
+                current = current.next;
+            }
         value = (T) current.value[index];
         return value;
     }
-    public T getFirst(){
+
+    public T getFirst() {
         return first.value[0];
     }
 
-    public T getLast(){
-        int i=0;
-        while (i<INIT_CAPACITY&&last.value[i]!=null)
+    public T getLast() {
+        int i = 0;
+        while (i < INIT_CAPACITY && last.value[i] != null)
             i++;
-        return (T) last.value[i-1];
+        return (T) last.value[i - 1];
     }
 
-    public void removeLast(){
-        if(last.value[0]==null){
-            last=last.prev;
+    public void removeLast() {
+        if (last.value[0] == null) {
+            last = last.prev;
         }
-        int i=0;
-        while (i<INIT_CAPACITY&&last.value[i]!=null)
+        int i = 0;
+        while (i < INIT_CAPACITY && last.value[i] != null)
             i++;
-        last.value[i-1]=null;
+        last.value[i - 1] = null;
     }
 
 
@@ -102,6 +109,6 @@ public class MyLinkedList<T> implements Iterable<T>,IMyLinkedList<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new MyLinkedListIterator<>(first);
+        return new MyDequeIterator<>(first);
     }
 }

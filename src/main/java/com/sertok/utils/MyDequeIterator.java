@@ -2,14 +2,14 @@ package com.sertok.utils;
 
 import java.util.Iterator;
 
-import static com.sertok.utils.MyLinkedList.INIT_CAPACITY;
+import static com.sertok.utils.MyDeque.INIT_CAPACITY;
 
 
-public class MyLinkedListIterator<T> implements Iterator<T> {
+public class MyDequeIterator<T> implements Iterator<T> {
     private Node<T> first;
     private int index = -1;
 
-    public MyLinkedListIterator(Node<T> first) {
+    public MyDequeIterator(Node<T> first) {
         this.first = first;
     }
 
