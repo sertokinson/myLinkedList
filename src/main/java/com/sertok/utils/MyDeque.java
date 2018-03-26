@@ -77,6 +77,7 @@ public class MyDeque<T> implements Iterable<T>, IMyDeque<T> {
         while (i < INIT_CAPACITY && last.value[i] != null)
             i++;
         last.value[i - 1] = null;
+        size--;
     }
 
 
