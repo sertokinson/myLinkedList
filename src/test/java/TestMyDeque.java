@@ -7,14 +7,18 @@ public class TestMyDeque {
 
     public static void main(String[] args) {
         IMyDeque<Integer> myDeque = new MyDeque<>();
-        long start = System.currentTimeMillis();
         for (int i = 0; i < 10; i++) {
             myDeque.add(i);
           //myDeque.getLast();
         }
-        System.out.println(myDeque.get(0));
-        System.out.println(myDeque.get(3));
-        System.out.println(myDeque.get(4));
+        myDeque.removeLast();
+        myDeque.removeLast();
+        myDeque.removeLast();
+        myDeque.add(11);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 7; i++) {
+            System.out.println(myDeque.get(i));
+        }
         long finish = System.currentTimeMillis();
         System.out.println("time MyDeque: " + (finish - start));
     }
