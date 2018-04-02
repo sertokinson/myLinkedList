@@ -16,10 +16,11 @@
 Что если создать такую структуру данных, при которой вставка и получение любого элемента будет за константное время.
 Буду использовать технологию `ArrayList` без пересоздания массива, что конечно же проигрывает по памяти, но выигрывает в скорости,
 т.к. память дешевая и её очень много, выигрыш в производительности считаю приоритетным.
-Для того чтобы связать их между собой, буду использовать двусвязный список
+Для того чтобы связать их между собой, буду использовать двусвязный список:
+![](https://habrastorage.org/webt/kd/t_/zl/kdt_zlyrbscofg7unhqyc43vc9s.jpeg)
 ##Реализация
 Перейдем непосредственно к исходному коду:<br/>
-<source>
+```java
 public class Node<T> {
     Node prev;
     Node next;
@@ -31,20 +32,20 @@ public class Node<T> {
         this.value = value;
     }
 }
-</source>
+```
     
 Для начало создадим стандартную структуру двусвязного списка, где `value` - это массив значений. 
 Далее перейдем к конкретной реализации класса, объявим необходимые переменные:    
-<source>
-    public static int INIT_CAPACITY = 100;
-    private Object[] arr = new Object[INIT_CAPACITY];
-    private int index = 0;
-    private int level = 0;
-    private Node<T> first = new Node<>(null, null, (T[]) arr);
-    private Node last = first;
-    private Node current = null;
-    private int size = 0;
- </source>       
+```java
+public static int INIT_CAPACITY = 100;
+private Object[] arr = new Object[INIT_CAPACITY];
+private int index = 0;
+private int level = 0;
+private Node<T> first = new Node<>(null, null, (T[]) arr);
+private Node last = first;
+private Node current = null;
+private int size = 0;
+```      
 Здесь `INIT_CAPACITY` - начальный размер массива, 
 его можно переопределить в соответствующем конструкторе, `arr` - собственно сам массив,
 переменная `index` - понадобится для расчета индекса, `level` - для расчета уровня,
@@ -53,55 +54,55 @@ public class Node<T> {
 последней выборки, так можно ускорить выборку подряд идущих элементов или близ - лежащих к ним,
 далее также будет рассмотренно подробно, `size` - размер (или количество данных).<br/>
 Зададим 2 коструктора - по умолчанию и для изменения начального размера:
-<source>
-    public MyLinkedList() {
-            first.next = last.next;
-    }
-    public MyLinkedList(int size) {
-        INIT_CAPACITY = size;
-        arr = new Object[INIT_CAPACITY];
-        first.next = last.next;
-    }
-  </source>
+```java
+public MyLinkedList() {
+    first.next = last.next;
+}
+public MyLinkedList(int size) {
+    INIT_CAPACITY = size;
+    arr = new Object[INIT_CAPACITY];
+    first.next = last.next;
+}
+```
 Добавление элемента:
-<source>
-    public void add(T i) {
-        if (index == INIT_CAPACITY) {
-            arr = new Object[INIT_CAPACITY];
-            last.next = new Node<>(last, null, (T[]) arr);
-            index = 0;
-            last = last.next;
-        }
-        arr[index] = i;
-        index++;
-        size++;
+```java
+public void add(T i) {
+    if (index == INIT_CAPACITY) {
+        arr = new Object[INIT_CAPACITY];
+        last.next = new Node<>(last, null, (T[]) arr);
+        index = 0;
+        last = last.next;
     }
-</source>    
+    arr[index] = i;
+    index++;
+    size++;
+}
+``` 
 Здесь проверяем условие, если массив заполнен, то создаем новый и запоминаем ссылку на него.<br/>
 Получение элемента:
-<source>
-    public T get(int i) {
-        T value;
-        int level = i / INIT_CAPACITY;
-        int index = i % INIT_CAPACITY;
-        if (this.current == null) {
-            this.level = 0;
-            this.current = first;
-        }
-        if(this.level > level)
-            for (int j = this.level; j < level; j++) {
-                this.level = level;
-                current = current.prev;
-            }
-        else
-            for (int j = this.level; j < level; j++) {
-                this.level = level;
-                current = current.next;
-            }
-        value = (T) current.value[index];
-        return value;
+```java
+public T get(int i) {
+    T value;
+    int level = i / INIT_CAPACITY;
+    int index = i % INIT_CAPACITY;
+    if (this.current == null) {
+        this.level = 0;
+        this.current = first;
     }
-</source>    
+    if(this.level > level)
+        for (int j = this.level; j < level; j++) {
+            this.level = level;
+            current = current.prev;
+        }
+    else
+        for (int j = this.level; j < level; j++) {
+            this.level = level;
+            current = current.next;
+        }
+    value = (T) current.value[index];
+    return value;
+}
+```
 Уровни это количество массивов в списке, т.е на 0 уровне 1 массив, на 1 - 2 массива и т.д.,
 `index` - это индекс текущего уровня `0..INIT_CAPACITY`, также у нас есть ссылка на текущий элемент
 списка `current`, который был получен из предыдущей выборки, т.е. если новый уровень больше предыдущего,
@@ -110,14 +111,11 @@ public class Node<T> {
     public T getFirst(){
         return first.value[0];
     }
-    public T getLast(){
-         int i=0;
-         while (i<INIT_CAPACITY&&last.value[i]!=null)
-             i++;
-         return (T) last.value[i-1];
-      }
+    public T getLast() {
+           return (T) last.value[(size-1) % INIT_CAPACITY];
+       }
      </source> 
-Так как создается начальный массив заполненный null-ми, то последний элемент - это последний не null элемент в массиве. 
+Последний элемент получить также просто, как последний элемент в массиве.
 Операция удаления последнего элемента в массиве - по факту это просто затирание значения null-ом.
 Если весь массив становится заполненным null-ми, то теряем ссылку на него и garbage collector все почистит:
 <source>
@@ -167,14 +165,32 @@ public class Node<T> {
       long time = finish - start;
  </source>
 
-Делал по 3 запуска и брал среднее:
+Делал по 3 запуска и брал среднее, возьмем 100 тысяч элементов:
 
-| N=100000   |   addLast        |   getFirst     |    getMiddle  |   getLast        |
-|:------------- |:---------------:| -------------:|:------------- |:---------------:| 
-|  MyDeque    |         8           |         0         |          4       |                      |   
-|   Deque       |        10          |         2         |          -        |          2          |      
-| ArrayList      |        50          |        2         |           4       |          3          |      
-| LinkedList    |        30          |         4         |    86214      |          4          |   
+| N=100000    |   Вставка в конец   |   Получение первого  |    Получение среднего  |   Получение последнего        |
+|:-----------: |:-------------------:| --------------------:|:-----------------------|:------------------------:| 
+|  MyDeque    |         8           |         0            |          4             |            0             |   
+| ArrayDeque  |        10           |         2            |          -             |            2             |      
+| ArrayList   |        50           |         2            |          4             |            3             |      
+| LinkedList  |        30           |         4            |        86214           |            4             |   
+
+Возьмем миллион элементов:
+
+| N=1000000   |   Вставка в конец   |   Получение первого  |   Получение среднего   |   Получение последнего   |
+|:------------|:-------------------:| --------------------:|:-----------------------|:------------------------:| 
+|  MyDeque    |         203         |         2            |          26            |            7             |   
+| ArrayDeque  |         262         |         11           |          -             |           15             |      
+| ArrayList   |         340         |         13           |          17            |           12             |      
+| LinkedList  |         486         |         23           |       >100000          |           25             |   
+
+И наконец, возьмем 10 миллионов элементов:
+
+| N=10000000  |   Вставка в конец                |   Получение первого  |   Получение среднего   |   Получение последнего   |
+|:------------|:--------------------------------:| --------------------:|:-----------------------|:------------------------:| 
+|  MyDeque    |        2410                      |         31           |          26            |           71             |   
+| ArrayDeque  |        4628                      |         322          |          -             |           111            |      
+| ArrayList   |        4796                      |         115          |          17            |           120            |      
+| LinkedList  |                            OutOfMemoryError: Java heap space                                                                             
 
 #Вывод
 В сухом остатке, получили очередь LIFO, которая работает быстрее, чем обычная Deque.

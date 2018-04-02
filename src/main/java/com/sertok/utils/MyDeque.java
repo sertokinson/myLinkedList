@@ -63,10 +63,7 @@ public class MyDeque<T> implements Iterable<T>, IMyDeque<T> {
     }
 
     public T getLast() {
-        int i = 0;
-        while (i < INIT_CAPACITY && last.value[i] != null)
-            i++;
-        return (T) last.value[i - 1];
+        return (T) last.value[(size-1) % INIT_CAPACITY];
     }
 
     public void removeLast() {
