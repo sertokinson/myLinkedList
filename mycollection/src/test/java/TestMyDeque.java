@@ -1,5 +1,4 @@
 
-import com.sertok.utils.IMyDeque;
 import com.sertok.utils.MyDeque;
 
 public class TestMyDeque {
@@ -7,17 +6,16 @@ public class TestMyDeque {
 
     public static void main(String[] args) {
         MyDeque<Integer> myDeque = new MyDeque<>();
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < 10; i++) {
+
+        for (int i = 0; i < N; i++) {
             myDeque.add(i);
         }
-        long finish = System.currentTimeMillis();
-        myDeque.removeLast();
-        myDeque.removeLast();
-        for (Integer i:myDeque) {
-            System.out.println(i);
-
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < N; i++) {
+            myDeque.get(i/2);
         }
+        long finish = System.currentTimeMillis();
+
         System.out.println("time MyDeque: " + (finish - start));
     }
 }

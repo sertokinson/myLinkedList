@@ -23,7 +23,7 @@ public class MyDeque<T> implements Iterable<T>, IMyDeque<T> {
         first.next = last.next;
     }
 
-    public void add(T i) {
+    public boolean add(T i) {
         if (index == INIT_CAPACITY) {
             arr = new Object[INIT_CAPACITY];
             last.next = new Node<>(last, null, (T[]) arr);
@@ -33,6 +33,7 @@ public class MyDeque<T> implements Iterable<T>, IMyDeque<T> {
         arr[index] = i;
         index++;
         size++;
+        return true;
     }
 
 
@@ -54,6 +55,7 @@ public class MyDeque<T> implements Iterable<T>, IMyDeque<T> {
                 this.level = level;
                 current = current.next;
             }
+
         value = (T) current.value[index];
         return value;
     }
@@ -74,6 +76,8 @@ public class MyDeque<T> implements Iterable<T>, IMyDeque<T> {
         last.value[(size-1) % INIT_CAPACITY]=null;
         size--;
         index--;
+
+
     }
 
 
