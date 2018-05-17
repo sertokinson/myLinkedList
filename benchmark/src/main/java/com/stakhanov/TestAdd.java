@@ -1,7 +1,7 @@
 package com.stakhanov;
 
 import com.sertok.utils.MyDeque;
- import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Mode;
 import org.openjdk.jmh.annotations.OutputTimeUnit;
@@ -28,9 +28,10 @@ public class TestAdd {
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void testAddLinkedList(Blackhole blackhole) {
         List<Integer> linkedList = new LinkedList<>();
-        for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-            blackhole.consume(linkedList.add(i));
-        }
+        if (Constant.COUNT_ELEMENT < 10000000)
+            for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
+                blackhole.consume(linkedList.add(i));
+            }
     }
 
     @Benchmark

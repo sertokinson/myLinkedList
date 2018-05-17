@@ -12,9 +12,10 @@ public class TestGetLinkedList {
     private static class SetLinkedList {
         List<Integer> list = new LinkedList<>();
         SetLinkedList() {
-            for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-                list.add(i);
-            }
+            if (Constant.COUNT_ELEMENT < 10000000)
+                for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
+                    list.add(i);
+                }
         }
     }
 
@@ -33,25 +34,29 @@ public class TestGetLinkedList {
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void getFirst(MyState state, Blackhole blackhole) {
+        if (Constant.COUNT_ELEMENT < 10000000)
         for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
             blackhole.consume(state.linkedList.list.get(0));
         }
     }
+
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void getLast(MyState state, Blackhole blackhole) {
+        if (Constant.COUNT_ELEMENT < 10000000)
         for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-            blackhole.consume(state.linkedList.list.get(Constant.COUNT_ELEMENT-1));
+            blackhole.consume(state.linkedList.list.get(Constant.COUNT_ELEMENT - 1));
         }
     }
+
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void getMiddle(MyState state, Blackhole blackhole) {
-        for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-            blackhole.consume(state.linkedList.list.get(i/2));
-        }
+        if (Constant.COUNT_ELEMENT < 1000000)
+            for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
+                blackhole.consume(state.linkedList.list.get(i / 2));
+            }
     }
-
 }
