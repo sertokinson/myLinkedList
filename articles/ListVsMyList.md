@@ -10,7 +10,7 @@
 Для того чтобы связать их между собой, буду использовать двусвязный список:
 ![](https://habrastorage.org/webt/kd/t_/zl/kdt_zlyrbscofg7unhqyc43vc9s.jpeg)
 <cut/>
-##Реализация
+## Реализация
 Перейдем непосредственно к исходному коду:<br/>
 ```java
 public class Node<T> {
@@ -135,7 +135,7 @@ public T next() {
     return value;
 }
 ```
-##Время работы
+## Время работы
 Возможно корректность способа замера оставляет желать лучшего, но делал это так:
 ```java
 long start = System.currentTimeMillis();
@@ -172,7 +172,7 @@ long time = finish - start;
 | LinkedList  |                            OutOfMemoryError: Java heap space                                                                             
 
 
-#Вывод
+# Вывод
 
 ![](https://habrastorage.org/webt/ga/zv/mv/gazvmvcjcuhrwb1xah6gkoazzt8.jpeg)
 
