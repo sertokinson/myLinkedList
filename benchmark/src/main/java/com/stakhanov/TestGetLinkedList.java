@@ -1,5 +1,6 @@
 package com.stakhanov;
 
+import org.ahmadsoft.ropes.Rope;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
@@ -10,11 +11,11 @@ import java.util.concurrent.TimeUnit;
 public class TestGetLinkedList {
 
     private static class SetLinkedList {
-        List<Integer> list = new LinkedList<>();
+        List<Rope> list = new LinkedList<>();
         SetLinkedList() {
             if (Constant.COUNT_ELEMENT < 10000000)
                 for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-                    list.add(i);
+                    list.add(Rope.BUILDER.build(""));
                 }
         }
     }

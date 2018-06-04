@@ -1,6 +1,7 @@
 package com.stakhanov;
 
 import com.sertok.utils.MyDeque;
+import org.ahmadsoft.ropes.Rope;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.BenchmarkMode;
 import org.openjdk.jmh.annotations.Mode;
@@ -17,9 +18,9 @@ public class TestAdd {
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void testAddArrayList(Blackhole blackhole) {
-        List<Integer> arrayList = new ArrayList<>();
+        List<Rope> arrayList = new ArrayList<>();
         for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-            blackhole.consume(arrayList.add(i));
+            blackhole.consume(arrayList.add(Rope.BUILDER.build("")));
         }
     }
 
@@ -27,10 +28,10 @@ public class TestAdd {
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void testAddLinkedList(Blackhole blackhole) {
-        List<Integer> linkedList = new LinkedList<>();
+        List<Rope> linkedList = new LinkedList<>();
         if (Constant.COUNT_ELEMENT < 10000000)
             for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-                blackhole.consume(linkedList.add(i));
+                blackhole.consume(linkedList.add(Rope.BUILDER.build("")));
             }
     }
 
@@ -38,9 +39,9 @@ public class TestAdd {
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void testAddDeque(Blackhole blackhole) {
-        Deque<Integer> deque = new ArrayDeque<>();
+        Deque<Rope> deque = new ArrayDeque<>();
         for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-            blackhole.consume(deque.add(i));
+            blackhole.consume(deque.add(Rope.BUILDER.build("")));
         }
     }
 
@@ -48,9 +49,9 @@ public class TestAdd {
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.SECONDS)
     public void testAddMyDeque(Blackhole blackhole) {
-        MyDeque<Integer> myDeque = new MyDeque<>();
+        MyDeque<Rope> myDeque = new MyDeque<>();
         for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-            blackhole.consume(myDeque.add(i));
+            blackhole.consume(myDeque.add(Rope.BUILDER.build("")));
         }
     }
 }

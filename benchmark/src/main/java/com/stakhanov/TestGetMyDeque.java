@@ -26,6 +26,7 @@
 package com.stakhanov;
 
 import com.sertok.utils.MyDeque;
+import org.ahmadsoft.ropes.Rope;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import java.util.concurrent.TimeUnit;
@@ -33,11 +34,11 @@ import java.util.concurrent.TimeUnit;
 public class TestGetMyDeque {
 
     private static class SetDeque {
-        MyDeque<Integer> deque = new MyDeque<>();
+        MyDeque<Rope> deque = new MyDeque<>();
 
         SetDeque() {
             for (int i = 0; i <Constant.COUNT_ELEMENT; i++) {
-                deque.add(i);
+                deque.add(Rope.BUILDER.build(""));
             }
         }
     }

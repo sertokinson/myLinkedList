@@ -1,5 +1,6 @@
 package com.stakhanov;
 
+import org.ahmadsoft.ropes.Rope;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
@@ -10,10 +11,10 @@ import java.util.concurrent.TimeUnit;
 public class TestGetArrayList {
 
     private static class SetArrayList {
-        List<Integer> list = new ArrayList<>();
+        List<Rope> list = new ArrayList<>();
         SetArrayList() {
             for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-                list.add(i);
+                list.add(Rope.BUILDER.build(""));
             }
         }
     }

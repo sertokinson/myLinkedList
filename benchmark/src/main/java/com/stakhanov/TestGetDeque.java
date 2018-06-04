@@ -1,6 +1,7 @@
 package com.stakhanov;
 
  import com.stakhanov.Constant;
+ import org.ahmadsoft.ropes.Rope;
  import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
@@ -11,10 +12,10 @@ import java.util.concurrent.TimeUnit;
 public class TestGetDeque {
 
     private static class SetDeque {
-        Deque<Integer> deque =new ArrayDeque<>();
+        Deque<Rope> deque =new ArrayDeque<>();
         SetDeque() {
             for (int i = 0; i < Constant.COUNT_ELEMENT; i++) {
-                deque.add(i);
+                deque.add(Rope.BUILDER.build(""));
             }
         }
     }
